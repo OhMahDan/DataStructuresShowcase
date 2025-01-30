@@ -1,5 +1,5 @@
 // Actual class for the linked list
-// TODO: Code insertAtPosition, removeValue, reverse, and length methods
+// TODO: Comments
 public class LinkedList<T> {
     private Node<T> head;
 
@@ -36,6 +36,7 @@ public class LinkedList<T> {
         }
     }
 
+    // Remove first value and return it.
     public T removeHead(){
         if(head == null){
             return null;
@@ -45,6 +46,7 @@ public class LinkedList<T> {
         return data;
     }
     
+    // Search for value and return true or false if found.
     public boolean search(T value){
         Node<T> current = head;
         while(current != null){
@@ -57,6 +59,90 @@ public class LinkedList<T> {
     }
 
     public void insertAtPosition(int pos, T value){
+        if(pos <= 0){
+            throw new IllegalArgumentException("Position must be greater than 0");
+        }
+        if(head == null || pos == 1){
+            insertAtHead(value);
+            return;
+        }
+        Node<T> newNode = new Node<>(value);
+        Node<T> current = head;
+        for(int i = 1; i < pos - 1; i++){
+            if(current.next == null){
+                current.next = newNode;
+                return;
+            }
+            else{
+                current = current.next;
+            }   
+        }
+        newNode.next = current.next;
+        current.next = newNode;
+    }
 
+    public void removeValue(T value){
+        Node<T> current = head;
+        Node<T> nextNode = current.next;
+        while(nextNode != null){
+            if(nextNode.data == value){
+                current.next = nextNode.next;
+                return;
+            }
+            current = current.next;
+            nextNode = current.next;
+        }
+        if(current.data == value){
+            removeTail();
+        }
+    }
+
+    public T removeTail(){
+        // If list is empty.
+        if(head == null){
+            return null;
+        }
+        
+        // If only one node.
+        if(head.next == null){
+            T temp = head.data;
+            head = null;
+            return temp;
+        }
+
+        // Otherwise, search for tail.
+        Node<T> current = head;
+        while(current.next.next != null){
+            current = current.next;
+        }
+
+        // current.next is the tail. Remove it.
+        T temp = current.next.data;
+        current.next = null;
+        return temp;
+    }
+
+    public int length(){
+        Node<T> current = head;
+        int count = 0;
+        while(current != null){
+            current = current.next;
+            count++;
+        }
+        return count;
+    }
+
+    public void reverse(){
+        Node<T> prev = null;
+        Node<T> current = head;
+        Node<T> next = null;
+        while(current != null){
+            next = current.next;
+            current.next = prev;
+            prev = current;
+            current = next;
+        }
+        head = prev;
     }
 }
+
