@@ -14,6 +14,7 @@ public class Queue<T> {
         int count = 0;
         while(tempNode != null){
             count++;
+            tempNode = tempNode.next;
         }
         return count;
     }

@@ -11,12 +11,17 @@ public class DoublyLinkedList<T> {
 		int count = 0;
 		while(temp != null){
 			count++;
+			temp = temp.next;
 		}
 		return count;
 	}
 
 	public void insertAtHead(T value){
 		DoubleNode<T> newNode = new DoubleNode<>(value);
+		if(head == null){
+			head = tail =  newNode;
+			return;
+		}
 		head.prev = newNode;
 		newNode.next = head;
 		head = newNode;
@@ -61,7 +66,7 @@ public class DoublyLinkedList<T> {
 
 	public void delPosition(int position){
 		DoubleNode<T> temp = head;
-		for(int i = 0; i < position; i++){
+		for(int i = 0; i < position - 1; i++){
 			temp = temp.next;
 		}
 		temp.next = temp.next.next;
